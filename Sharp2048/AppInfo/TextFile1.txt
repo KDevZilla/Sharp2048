@@ -1,0 +1,5 @@
+﻿This text file is no used.
+It exits in order to make visual studio copy AppInfo folder
+to Bin folder
+(As far as I know there is no option to create folder wihout at least 
+one file)

@@ -22,6 +22,10 @@ namespace Sharp2048
         Dictionary<int, Color> dicTileColor = null;
         private void InitialUI()
         {
+            panelAbout.Height  = 0;
+            panelAbout.Visible = false;
+            panelAbout.BringToFront();
+
             dicForeColor = new Dictionary<int, Color>()
             {
                 {0,Color.FromArgb (204,192,179) },
@@ -141,6 +145,23 @@ namespace Sharp2048
                 Cursor = Cursors.Hand
 
             };
+
+            RoundLabel roundlblOKAbout = new RoundLabel()
+            {
+                _BackColor = Color.FromArgb(143, 122, 102),
+                ForeColor = Color.White,
+                CorderRadius = 5,
+                Text = lblAboutOK.Text,
+                Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
+                Visible = true,
+                AutoSize = false,
+                Height = lblAboutOK.Height,
+                Width = lblAboutOK.Width,
+                Top = lblAboutOK.Top,
+                Left = lblAboutOK.Left,
+                Cursor = Cursors.Hand
+
+            };
             RoundLabel roundlblScoreBack = new RoundLabel()
             {
                 _BackColor = Color.FromArgb(187, 173, 160),
@@ -178,10 +199,24 @@ namespace Sharp2048
                 Render(board);
             };
 
+            roundlblAbout.Click += (o, e) =>
+            {
+                panelAbout.Height  = 564;
+                panelAbout.Visible = true;
+            };
+
+            roundlblOKAbout.Click += (o, e) =>
+            {
+                panelAbout.Height  = 0;
+                panelAbout.Visible = false;
+            };
+
+            this.panelAbout.Controls.Add(roundlblOKAbout);
             this.Controls.Add(roundlblAbout);
             this.Controls.Add(roundlblNewGame);
             this.Controls.Add(roundlblScoreBack);
 
+            lblAboutOK.Visible = false;
             lblNewGame.Visible = false;
             lblAbout.Visible = false;
             lblScoreBack.Visible = false;
@@ -227,7 +262,8 @@ namespace Sharp2048
             InitialUI();
             InitialGame();
             Render(board);
-           // this.Text = this.pictureBox1.Width.ToString ();
+            // this.Text = this.pictureBox1.Width.ToString ();
+           // this.Text = this.Height.ToString();
 
           //  this.Text = this.Width.ToString ();
 
@@ -303,6 +339,27 @@ namespace Sharp2048
         {
             InitialGame();
             Render(board);
+        }
+
+        private void linkGabriel_Clicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(@"http://gabrielecirulli.com/");
+
+        }
+
+        private void linkCode_Clicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string link = @"https://github.com/kdevzilla/Sharp2048";
+            System.Diagnostics.Process.Start(link);
+
+
+        }
+
+        private void linkOnline_Clicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string link = @"https://play2048.co";
+            System.Diagnostics.Process.Start(link);
+
         }
     }
 }
