@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Sharp2048
 {
-    public partial class Form2 : Form
+    public partial class Form2048 : Form
     {
-        public Form2()
+        public Form2048()
         {
             InitializeComponent();
         }
@@ -59,7 +59,7 @@ namespace Sharp2048
 
             };
 
-            Font tileFont = new System.Drawing.Font("Segoe UI", 56F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Font tileFont = new System.Drawing.Font("Segoe UI", 40F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             int tileWidth = 120;
             int tileHigh = 120;
             int spaceBetweentile = 15;
@@ -255,7 +255,10 @@ namespace Sharp2048
             // board.Matrix []
             board.RandomPopupNewValue(1);
             */
-            board.RandomPopupNewValue(2);
+
+            board.RandomPopupInitial();
+          
+
         }
         private void Form2_Load(object sender, EventArgs e)
         {
@@ -299,7 +302,10 @@ namespace Sharp2048
                 }
                 return;
             }
-
+            if(board.Score > Util.BestScore())
+            {
+                Util.UpdateBestScore(board.Score);
+            }
             Render(board);
             if (board.IsGameFinished())
             {
@@ -307,7 +313,7 @@ namespace Sharp2048
             }
 
 
-            board.RandomPopupNewValue(1);
+            board.RandomPopUpNext ();
             Render(board);
             if (!board.CanMove())
             {
@@ -332,6 +338,7 @@ namespace Sharp2048
                 }
             }
             this.lblScore.Text = board.Score.ToString ();
+            this.lblScoreBest.Text = Util.BestScore().ToString ();
 
         }
 

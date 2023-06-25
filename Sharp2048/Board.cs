@@ -320,7 +320,23 @@ namespace Sharp2048
                 return getrandom.Next(min, max);
             }
         }
-        public void RandomPopupNewValue(int numberofRandomTile)
+        public void RandomPopupInitial()
+        {
+             RandomPopupNewValue(2,2);
+        }
+        public void RandomPopUpNext()
+        {
+
+            int randomNumber =GetRandomNumber(0, 10);
+            // Some time we would like to random 4 number
+            int numberofRandomTile = randomNumber != 5
+                                    ? 2
+                                    : 4;
+           
+            RandomPopupNewValue(1, numberofRandomTile);
+
+        }
+        public void RandomPopupNewValue(int numberofRandomTile,int value)
         {
             int newRandomTile = 0;
             HashSet<String> hshRandom = new HashSet<string>();
@@ -338,7 +354,7 @@ namespace Sharp2048
                     continue;
                 }
                 hshRandom.Add(rowColumnString);
-                Matrix[rowRandom, colRandom] = 2;
+                Matrix[rowRandom, colRandom] = value;
                 newRandomTile++;
             }
 

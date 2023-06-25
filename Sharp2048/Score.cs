@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Sharp2048
 {
-    class Score
+    [Serializable]
+    public class Score
     {
+        public int Value { get; set; } = 0;
     }
 }

@@ -22,11 +22,18 @@ namespace Sharp2048
         public static string ScorePath => $"{CurrentPath}\\Score.bin";
         public static int BestScore()
         {
-            DeserializeScore (Score )
+            if(!System.IO.File.Exists(ScorePath))
+            {
+                CreateNewScore(ScorePath);
+            }
+            Score score= DeserializeScore(ScorePath);
+            return score.Value;
         }
         public static void UpdateBestScore(int newBestScore)
         {
-
+            Score score = new Score();
+            score.Value = newBestScore;
+            SerializeScore(score, ScorePath);
         }
 
 

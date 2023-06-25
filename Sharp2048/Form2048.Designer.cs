@@ -1,6 +1,6 @@
 ﻿namespace Sharp2048
 {
-    partial class Form2
+    partial class Form2048
     {
         /// <summary>
         /// Required designer variable.
