@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sharp2024.Properties
+namespace Sharp2048.Properties
 {
 
 
