@@ -309,5 +309,37 @@ namespace Sharp2048Test
 
 
         }
+
+
+
+        [TestMethod]
+        public void MoveToSameTile2()
+        {
+            Sharp2048.Board board = new Board();
+
+
+            board = new Board();
+            board.SetRowTileValue(0, new int[] { 4, 2, 2, 4 });
+
+
+            board.Move(Board.Direction.Left);
+            Assert.AreEqual(board.Matrix[0, 0], 4);
+            Assert.AreEqual(board.Matrix[0, 1], 4);
+            Assert.AreEqual(board.Matrix[0, 2], 4);
+            Assert.AreEqual(board.Matrix[0, 3], 0);
+            Assert.AreEqual(board.Score,4);
+
+            board.Move(Board.Direction.Left);
+            Assert.AreEqual(board.Matrix[0, 0], 8);
+            Assert.AreEqual(board.Matrix[0, 1], 4);
+            Assert.AreEqual(board.Matrix[0, 2], 0);
+            Assert.AreEqual(board.Matrix[0, 3], 0);
+            Assert.AreEqual(board.Score, 12);
+
+
+
+
+
+        }
     }
 }

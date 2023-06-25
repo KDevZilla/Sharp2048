@@ -25,6 +25,22 @@ namespace Sharp2048
             }
             return newBoard;
         }
+        public void SetRowTileValue(int row, int[] arrValue)
+        {
+            int i;
+            for (i = 0; i < arrValue.Length; i++)
+            {
+                Matrix[row, i] = arrValue[i];
+            }
+        }
+        public void SetColTileValue(int col, int[] arrValue)
+        {
+            int i;
+            for (i = 0; i < arrValue.Length; i++)
+            {
+                Matrix[i, col] = arrValue[i];
+            }
+        }
         public bool CanMove()
         {
             int i;
@@ -131,6 +147,14 @@ namespace Sharp2048
             int lastRow = 0;
             int lastCol = 0;
             bool IsDirectionValid = false;
+            bool[,] IsTileANewMix = new bool[this.RowSize , this.ColSize ];
+            for (i = 0; i < this.RowSize ; i++)
+            {
+                for (j = 0; j < this.ColSize ; j++)
+                {
+                    IsTileANewMix[i, j] = false;
+                }
+            }
             switch (direction)
             {
                 case Direction.Up:
@@ -205,7 +229,8 @@ namespace Sharp2048
                             continue;
                         }
 
-                        if (Matrix[newRow, newCol] == tileValue)
+                        if (Matrix[newRow, newCol] == tileValue
+                            && !IsTileANewMix [newRow ,newCol ])
                         {
                            moveResult = MovingResult.FoundSamevalueTile;
                         } else if (Matrix[newRow, newCol] == 0)
@@ -249,7 +274,7 @@ namespace Sharp2048
                         {
                             Matrix[destinationRow, destinationCol] *= 2;
                             AddScore(Matrix[destinationRow, destinationCol]);
-                            
+                            IsTileANewMix[destinationRow, destinationCol] = true;
                         }else
                         {
                             Matrix[destinationRow, destinationCol] = Matrix[i, j];                            

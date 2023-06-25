@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E6D21FA0-3256-4FC6-A6F3-C95C39E0A5F2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Sharp2024</RootNamespace>
-    <AssemblyName>Sharp2024</AssemblyName>
+    <RootNamespace>Sharp2048</RootNamespace>
+    <AssemblyName>Sharp2048</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -68,8 +68,6 @@
     <Compile Include="RoundLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TransitionExtend.cs" />
-    <Compile Include="TransitionHelper.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -84,6 +82,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -56,18 +56,15 @@ namespace Sharp2048
             };
 
             Font tileFont = new System.Drawing.Font("Segoe UI", 56F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            int tileWidth = 160;
-            int tileHigh = 160;
-            int spaceBetweentile = 20;
+            int tileWidth = 120;
+            int tileHigh = 120;
+            int spaceBetweentile = 15;
             Color mainBackColor = Color.FromArgb(187, 173, 160);
-            //  Color t0BackColor = Color.FromArgb(205, 193, 180);
-            //  Color t16BackColor = Color.FromArgb(246, 150, 100);
-            //  Color t16ForeColor = Color.White;
-
             pictureBox1.Width = tileWidth * 4 + (spaceBetweentile * 5);
             pictureBox1.Height = tileHigh * 4 + (spaceBetweentile * 5);
             pictureBox1.BackColor = Color.White;
-
+           //4 this.Width = pictureBox1.Width + 43;
+            this.Height = pictureBox1.Height + pictureBox1.Top + 55;
             RoundLabel RMain = new RoundLabel()
             {
                 Top = 0,
@@ -112,25 +109,133 @@ namespace Sharp2048
             this.pictureBox1.Controls.Add(RMain);
             this.KeyPreview = true;
             this.KeyDown += Form2_KeyDown;
+            RoundLabel roundlblNewGame = new RoundLabel()
+            {
+                _BackColor = Color.FromArgb(143, 122, 102),
+                ForeColor = Color.White,
+                CorderRadius = 5,
+                Text = "New Game",
+                Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
+                Visible = true,
+                AutoSize = false,
+                Height = lblNewGame.Height ,
+                Width = lblNewGame.Width ,
+                Top = lblNewGame.Top ,
+                Left=lblNewGame.Left ,
+                Cursor = Cursors.Hand
+               
+            };
+            RoundLabel roundlblAbout = new RoundLabel()
+            {
+                _BackColor = Color.FromArgb(143, 122, 102),
+                ForeColor = Color.White,
+                CorderRadius = 5,
+                Text = lblAbout.Text,
+                Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
+                Visible = true,
+                AutoSize = false,
+                Height = lblAbout.Height ,
+                Width = lblAbout.Width ,
+                Top =lblAbout.Top ,
+                Left =lblAbout.Left ,
+                Cursor = Cursors.Hand
+
+            };
+            RoundLabel roundlblScoreBack = new RoundLabel()
+            {
+                _BackColor = Color.FromArgb(187, 173, 160),
+                ForeColor = Color.White,
+                CorderRadius = 5,
+                Text = "",
+                Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
+                Visible = true,
+                AutoSize = false,
+                Height = lblScoreBack.Height ,
+                Width = lblScoreBack.Width ,
+                Top =lblScoreBack.Top ,
+                Left =lblScoreBack.Left 
+
+            };
+
+            RoundLabel roundlblScoreBestBack = new RoundLabel()
+            {
+                _BackColor = Color.FromArgb(187, 173, 160),
+                ForeColor = Color.White,
+                CorderRadius = 5,
+                Text = "",
+                Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
+                Visible = true,
+                AutoSize = false,
+                Height = lblScoreBestBack.Height,
+                Width = lblScoreBestBack.Width,
+                Top = lblScoreBestBack.Top,
+                Left = lblScoreBestBack.Left
+
+            };
+            roundlblNewGame.Click += (o, e) =>
+            {
+                InitialGame();
+                Render(board);
+            };
+
+            this.Controls.Add(roundlblAbout);
+            this.Controls.Add(roundlblNewGame);
+            this.Controls.Add(roundlblScoreBack);
+
+            lblNewGame.Visible = false;
+            lblAbout.Visible = false;
+            lblScoreBack.Visible = false;
+            lblScore.AutoSize = false;
+
+            lblScore.Width = roundlblScoreBack.Width;
+            lblScore.Left  = roundlblScoreBack.Left;
+            lblScore.BackColor = roundlblScoreBack._BackColor;
+
+            lblScoreText.Width = roundlblScoreBack.Width;
+            lblScoreText.Left = roundlblScoreBack.Left;
+            lblScoreText.BackColor = roundlblScoreBack._BackColor;
+
+            lblScoreBest.Width = roundlblScoreBestBack.Width;
+            lblScoreBest.Left = roundlblScoreBestBack.Left;
+            lblScoreBest.BackColor = roundlblScoreBestBack._BackColor;
+
+            lblScoreBestText.Width = roundlblScoreBestBack.Width;
+            lblScoreBestText.Left = roundlblScoreBestBack.Left;
+            lblScoreBestText.BackColor = roundlblScoreBestBack._BackColor;
+
+
+
+            //lblNewGame.Visible = false;
+
         }
         Board board = null;
         private void InitialGame()
         {
             board = new Board();
+            /*
+            board.SetRowTileValue(0, new int[] { 2, 4, 8, 16 });
+            board.SetRowTileValue(1, new int[] { 16, 8, 4, 2 });
+            board.SetRowTileValue(2, new int[] { 2, 4, 8, 16 });
+            board.SetRowTileValue(3, new int[] { 16, 8, 4, 0 });
+            // board.Matrix []
+            board.RandomPopupNewValue(1);
+            */
             board.RandomPopupNewValue(2);
-
         }
         private void Form2_Load(object sender, EventArgs e)
         {
             InitialUI();
             InitialGame();
             Render(board);
+           // this.Text = this.pictureBox1.Width.ToString ();
+
+          //  this.Text = this.Width.ToString ();
 
         }
 
         private void Form2_KeyDown(object sender, KeyEventArgs e)
         {
-            this.Text = e.KeyCode.ToString();
+           // this.Text = e.KeyCode.ToString();
             Board.Direction direction = Board.Direction.Up;
             switch (e.KeyCode)
             {
@@ -152,11 +257,27 @@ namespace Sharp2048
             bool IsThisDirectionValid=  board.Move(direction);
             if(!IsThisDirectionValid)
             {
+                if(!board.CanMove())
+                {
+                    MessageBox.Show("Game over");
+                }
                 return;
             }
+
+            Render(board);
+            if (board.IsGameFinished())
+            {
+                MessageBox.Show("Congreatulation, you have cleared the game");
+            }
+
+
             board.RandomPopupNewValue(1);
             Render(board);
-
+            if (!board.CanMove())
+            {
+                MessageBox.Show("Game over");
+                return;
+            }
             //throw new NotImplementedException();
         }
 
@@ -177,55 +298,12 @@ namespace Sharp2048
             this.lblScore.Text = board.Score.ToString ();
 
         }
-        private void button1_Click(object sender, EventArgs e)
+
+        private void linkNewGame_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //Transitions.Transition t = new Transitions.Transition
-            // TransitionHelper.PopLabel(listRoundLabel[0], "32", Color.Black);
-            TransitionHelper tHelper = new TransitionHelper();
-            tHelper.MoveLabel(listRoundLabel[0],
-                listRoundLabel[0].Top,
-                listRoundLabel[3].Left);
-            tHelper.MoveLabel(listRoundLabel[5],
-    listRoundLabel[5].Top,
-    listRoundLabel[7].Left);
-            tHelper.MoveLabel(listRoundLabel[10],
-    listRoundLabel[10].Top,
-    listRoundLabel[11].Left);
-
-
+            InitialGame();
+            Render(board);
         }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            TransitionHelper tHelper = new TransitionHelper();
-            tHelper.TransitionCompletedEvent += THelper_TransitionCompletedEvent;
-
-            tHelper.MoveLabel(listRoundLabel[5],
-listRoundLabel[3].Top,
-listRoundLabel[5].Left);
-
-
-        }
-
-        private void THelper_TransitionCompletedEvent(object sender, Transitions.Transition.Args e)
-        {
-            //  throw new NotImplementedException();
-            listRoundLabel[0].Text = "32";
-            listRoundLabel[0].BackColor = Color.White;
-            listRoundLabel[0].ForeColor = Color.Black;
-
-            /*
-            TransitionHelper tHelper = new TransitionHelper();
-            tHelper.TransitionCompletedEvent += THelper_TransitionCompletedEvent;
-
-            tHelper.ChangeLableApperance(listRoundLabel[0],
-      Color.White,
-      Color.Black,
-      listRoundLabel [0].Text ,
-      100);
-      */
-        }
-
     }
 }
 
