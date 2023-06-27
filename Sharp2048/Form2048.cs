@@ -20,6 +20,45 @@ namespace Sharp2048
         RoundLabel[,] arrRoundLabel = new RoundLabel[4,4];
         Dictionary<int, Color> dicForeColor = null;
         Dictionary<int, Color> dicTileColor = null;
+        Dictionary<int, Font> dicTileFont = null;
+        Dictionary<int, Font> _dicFont = null;
+        private Font GetFont(int size)
+        {
+            if(_dicFont == null)
+            {
+                _dicFont = new Dictionary<int, Font>();
+            }
+            if(!_dicFont.ContainsKey(size))
+            {
+                _dicFont.Add(size,CreateFont(size));
+            }
+            return _dicFont[size];
+        }
+        private Font CreateFont(float size)
+        {
+            return new System.Drawing.Font("Segoe UI", size, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        }
+        private RoundLabel CreateRoundLabel(Color _backColor, Label lblcovered)
+        {
+            RoundLabel newRoundLabel = new RoundLabel()
+            {
+                _BackColor = _backColor,
+                ForeColor = Color.White,
+                CorderRadius = 5,
+                Text = lblcovered.Text,
+                Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
+                Visible = true,
+                AutoSize = false,
+                Height = lblcovered.Height,
+                Width = lblcovered.Width,
+                Top = lblcovered.Top,
+                Left = lblcovered.Left,
+                Cursor = Cursors.Hand
+
+            };
+            return newRoundLabel;
+        }
+        
         private void InitialUI()
         {
             panelAbout.Height  = 0;
@@ -40,6 +79,7 @@ namespace Sharp2048
                 {512,Color.White },
                 {1024,Color.White },
                 {2048,Color.White },
+                {4096,Color.White  }
 
             };
             dicTileColor = new Dictionary<int, Color>()
@@ -56,9 +96,43 @@ namespace Sharp2048
                 {512,Color.FromArgb (237,200,80) },
                 {1024,Color.FromArgb (237,197,63) },
                 {2048,Color.FromArgb (237,194,46) },
+                {4096,Color.Black  }
 
             };
+            dicTileFont = new Dictionary<int, Font>()
+            {
+                 {0,GetFont (52)},
+                {2,GetFont (52) },
+                {4,GetFont (52) },
+                {8,GetFont (52) },
+                {16,GetFont (52) },
+                {32,GetFont (52) },
+                {64,GetFont (52) },
+                {128,GetFont (40) },
+                {256,GetFont (40) },
+                {512,GetFont (40) },
+                {1024,GetFont (36) },
+                {2048,GetFont (36) },
+                {4096,GetFont (36) }
+            };
 
+            dicTileColor = new Dictionary<int, Color>()
+            {
+                {0,Color.FromArgb (204,192,179) },
+                {2,Color.FromArgb (238,228,218) },
+                {4,Color.FromArgb (237,224,200) },
+                {8,Color.FromArgb (242,177,121) },
+                {16,Color.FromArgb (245,149,99) },
+                {32,Color.FromArgb (246,124,95) },
+                {64,Color.FromArgb (246,94,59) },
+                {128,Color.FromArgb (237,207,114) },
+                {256,Color.FromArgb (237,204,97) },
+                {512,Color.FromArgb (237,200,80) },
+                {1024,Color.FromArgb (237,197,63) },
+                {2048,Color.FromArgb (237,194,46) },
+                {4096,Color.Black  }
+
+            };
             Font tileFont = new System.Drawing.Font("Segoe UI", 40F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             int tileWidth = 120;
             int tileHigh = 120;
@@ -113,86 +187,15 @@ namespace Sharp2048
             this.pictureBox1.Controls.Add(RMain);
             this.KeyPreview = true;
             this.KeyDown += Form2_KeyDown;
-            RoundLabel roundlblNewGame = new RoundLabel()
-            {
-                _BackColor = Color.FromArgb(143, 122, 102),
-                ForeColor = Color.White,
-                CorderRadius = 5,
-                Text = "New Game",
-                Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
-                Visible = true,
-                AutoSize = false,
-                Height = lblNewGame.Height ,
-                Width = lblNewGame.Width ,
-                Top = lblNewGame.Top ,
-                Left=lblNewGame.Left ,
-                Cursor = Cursors.Hand
-               
-            };
-            RoundLabel roundlblAbout = new RoundLabel()
-            {
-                _BackColor = Color.FromArgb(143, 122, 102),
-                ForeColor = Color.White,
-                CorderRadius = 5,
-                Text = lblAbout.Text,
-                Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
-                Visible = true,
-                AutoSize = false,
-                Height = lblAbout.Height ,
-                Width = lblAbout.Width ,
-                Top =lblAbout.Top ,
-                Left =lblAbout.Left ,
-                Cursor = Cursors.Hand
 
-            };
+            RoundLabel roundlblNewGame = CreateRoundLabel(Color.FromArgb(143, 122, 102), lblNewGame);
+            RoundLabel roundlblAbout = CreateRoundLabel(Color.FromArgb(143, 122, 102), lblAbout);
+            RoundLabel roundlblOKAbout = CreateRoundLabel(Color.FromArgb(143, 122, 102), lblAboutOK);
+            RoundLabel roundlblScoreBack = CreateRoundLabel(Color.FromArgb(187, 173, 160), lblScoreBack);
+            RoundLabel roundlblScoreBestBack = CreateRoundLabel(Color.FromArgb(187, 173, 160), lblScoreBestBack);
 
-            RoundLabel roundlblOKAbout = new RoundLabel()
-            {
-                _BackColor = Color.FromArgb(143, 122, 102),
-                ForeColor = Color.White,
-                CorderRadius = 5,
-                Text = lblAboutOK.Text,
-                Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
-                Visible = true,
-                AutoSize = false,
-                Height = lblAboutOK.Height,
-                Width = lblAboutOK.Width,
-                Top = lblAboutOK.Top,
-                Left = lblAboutOK.Left,
-                Cursor = Cursors.Hand
+            
 
-            };
-            RoundLabel roundlblScoreBack = new RoundLabel()
-            {
-                _BackColor = Color.FromArgb(187, 173, 160),
-                ForeColor = Color.White,
-                CorderRadius = 5,
-                Text = "",
-                Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
-                Visible = true,
-                AutoSize = false,
-                Height = lblScoreBack.Height ,
-                Width = lblScoreBack.Width ,
-                Top =lblScoreBack.Top ,
-                Left =lblScoreBack.Left 
-
-            };
-
-            RoundLabel roundlblScoreBestBack = new RoundLabel()
-            {
-                _BackColor = Color.FromArgb(187, 173, 160),
-                ForeColor = Color.White,
-                CorderRadius = 5,
-                Text = "",
-                Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
-                Visible = true,
-                AutoSize = false,
-                Height = lblScoreBestBack.Height,
-                Width = lblScoreBestBack.Width,
-                Top = lblScoreBestBack.Top,
-                Left = lblScoreBestBack.Left
-
-            };
             roundlblNewGame.Click += (o, e) =>
             {
                 InitialGame();
@@ -255,7 +258,20 @@ namespace Sharp2048
             // board.Matrix []
             board.RandomPopupNewValue(1);
             */
+            
+            board.SetRowTileValue(0, new int[] { 2, 4, 8, 16 });
+            board.SetRowTileValue(1, new int[] { 32, 64, 128, 256 });
+            board.SetRowTileValue(2, new int[] { 512, 1024, 2048, 2048 });
 
+
+            //board.SetRowTileValue(0, new int[] { 2, 4, 8, 16 });
+            //board.SetRowTileValue(1, new int[] { 32, 64, 128, 256 });
+            /*
+            board.SetRowTileValue(0, new int[] { 2048, 2048, 2048, 2048 });
+            board.SetRowTileValue(1, new int[] { 2048, 2048, 2048, 2048 });
+            board.SetRowTileValue(2, new int[] { 2048, 2048, 2048, 2048 });
+            board.SetRowTileValue(3, new int[] { 2048, 2048, 2048, 2048 });
+            */
             board.RandomPopupInitial();
           
 
@@ -271,7 +287,7 @@ namespace Sharp2048
           //  this.Text = this.Width.ToString ();
 
         }
-
+        private bool HasShowWonMessage = false;
         private void Form2_KeyDown(object sender, KeyEventArgs e)
         {
            // this.Text = e.KeyCode.ToString();
@@ -307,6 +323,11 @@ namespace Sharp2048
                 Util.UpdateBestScore(board.Score);
             }
             Render(board);
+            if(board.IsWon && !HasShowWonMessage )
+            {
+                MessageBox.Show("Congreatulation, you have clared the game. click o.k. to continue playing");
+                HasShowWonMessage = true;
+            }
             if (board.IsGameFinished())
             {
                 MessageBox.Show("Congreatulation, you have cleared the game");
@@ -332,6 +353,7 @@ namespace Sharp2048
                 for (j = 0; j < board.ColSize; j++)
                 {
                     int titleValue = board.Matrix[i, j];
+                    arrRoundLabel[i, j].Font = dicTileFont[titleValue];
                     arrRoundLabel[i, j]._BackColor = dicTileColor[titleValue];
                     arrRoundLabel[i, j].ForeColor = dicForeColor[titleValue];
                     arrRoundLabel[i, j].Text = titleValue.ToString ();

@@ -77,7 +77,9 @@ namespace Sharp2048
                             continue;
                         }
                         if (Matrix[neighborRow, neighborCol] == 0
-                                || Matrix[neighborRow, neighborCol] == Matrix[i, j])
+                                || (Matrix[neighborRow, neighborCol] == Matrix[i, j]  
+                                   && Matrix [i,j] != 4096)
+                                   )
                         {
                             return true;
                         }
@@ -115,6 +117,8 @@ namespace Sharp2048
             FoundSamevalueTile,
             FoundDifferentValue
         }
+        public bool IsWon { get; private set; } = false;
+        
         public bool IsGameFinished()
         {
             int i;
@@ -134,6 +138,10 @@ namespace Sharp2048
         public int Score { get; private set; } = 0;
         public void AddScore(int addScore)
         {
+            if(addScore == 4096)
+            {
+                IsWon = true;
+            }
             Score += addScore;
         }
         private bool internalMove(Direction direction)
@@ -230,7 +238,8 @@ namespace Sharp2048
                         }
 
                         if (Matrix[newRow, newCol] == tileValue
-                            && !IsTileANewMix [newRow ,newCol ])
+                            && !IsTileANewMix [newRow ,newCol ]
+                            && Matrix [newRow,newCol] != 4096)
                         {
                            moveResult = MovingResult.FoundSamevalueTile;
                         } else if (Matrix[newRow, newCol] == 0)
@@ -340,8 +349,10 @@ namespace Sharp2048
         {
             int newRandomTile = 0;
             HashSet<String> hshRandom = new HashSet<string>();
+            int count = 0;
             while (newRandomTile < numberofRandomTile)
             {
+                count++;
                 int rowRandom = GetRandomNumber(0, RowSize);
                 int colRandom = GetRandomNumber(0, ColSize);
                 if(Matrix [rowRandom ,colRandom ] != 0)
@@ -356,6 +367,11 @@ namespace Sharp2048
                 hshRandom.Add(rowColumnString);
                 Matrix[rowRandom, colRandom] = value;
                 newRandomTile++;
+
+                if(count > 1000000)
+                {
+                    throw new Exception("RandomPopNewValue already try to generate a random number 10000000 times still not succeed.");
+                }
             }
 
 
