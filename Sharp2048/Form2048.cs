@@ -274,6 +274,7 @@ namespace Sharp2048
         }
         private void Form2_Load(object sender, EventArgs e)
         {
+            this.Icon = new Icon(Util.IconPath);
             InitialUI();
             InitialGame();
             Render(board);

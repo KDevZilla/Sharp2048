@@ -20,6 +20,7 @@ namespace Sharp2048
             }
         }
         public static string ScorePath => $"{CurrentPath}\\Score.bin";
+        public static string IconPath => $"{CurrentPath}\\AppInfo\\2048.ico";
         public static int BestScore()
         {
             if(!System.IO.File.Exists(ScorePath))
