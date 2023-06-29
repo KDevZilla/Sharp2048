@@ -165,7 +165,6 @@ namespace Sharp2048
                     RoundLabel lblTile = new RoundLabel()
                     {
                         BackColor = mainBackColor,
-                        //BackColor = Color.FromArgb(187, 173, 160),
                         _BackColor = dicTileColor[0],
                         ForeColor = dicForeColor[0],
                         Text = "0",
@@ -176,10 +175,9 @@ namespace Sharp2048
                         AutoSize = false,
                         Font = tileFont,
                         CorderRadius = 8
-
                     };
                     arrRoundLabel[i, j] = lblTile;
-                    //listRoundLabel.Add(lblTile);
+
                     this.pictureBox1.Controls.Add(lblTile);
                 }
             }
@@ -250,22 +248,20 @@ namespace Sharp2048
         private void InitialGame()
         {
             board = new Board();
+
             /*
+            //For test render
             board.SetRowTileValue(0, new int[] { 2, 4, 8, 16 });
             board.SetRowTileValue(1, new int[] { 16, 8, 4, 2 });
             board.SetRowTileValue(2, new int[] { 2, 4, 8, 16 });
             board.SetRowTileValue(3, new int[] { 16, 8, 4, 0 });
-            // board.Matrix []
-            board.RandomPopupNewValue(1);
+
             */
-            
+            /*
             board.SetRowTileValue(0, new int[] { 2, 4, 8, 16 });
             board.SetRowTileValue(1, new int[] { 32, 64, 128, 256 });
             board.SetRowTileValue(2, new int[] { 512, 1024, 2048, 2048 });
-
-
-            //board.SetRowTileValue(0, new int[] { 2, 4, 8, 16 });
-            //board.SetRowTileValue(1, new int[] { 32, 64, 128, 256 });
+            */
             /*
             board.SetRowTileValue(0, new int[] { 2048, 2048, 2048, 2048 });
             board.SetRowTileValue(1, new int[] { 2048, 2048, 2048, 2048 });
@@ -281,16 +277,12 @@ namespace Sharp2048
             InitialUI();
             InitialGame();
             Render(board);
-            // this.Text = this.pictureBox1.Width.ToString ();
-           // this.Text = this.Height.ToString();
-
-          //  this.Text = this.Width.ToString ();
-
+          
         }
         private bool HasShowWonMessage = false;
         private void Form2_KeyDown(object sender, KeyEventArgs e)
         {
-           // this.Text = e.KeyCode.ToString();
+
             Board.Direction direction = Board.Direction.Up;
             switch (e.KeyCode)
             {
