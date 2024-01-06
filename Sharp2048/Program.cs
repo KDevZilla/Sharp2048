@@ -16,7 +16,8 @@ namespace Sharp2048
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form2048());
+            //Application.Run(new Form2048());
+            Application.Run(new FormTestMoving2());
         }
     }
 }

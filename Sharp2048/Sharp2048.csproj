@@ -47,15 +47,29 @@
     <Reference Include="Transitions, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Transitions.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board.cs" />
+    <Compile Include="BoardUI.cs" />
     <Compile Include="Form2048.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form2048.Designer.cs">
       <DependentUpon>Form2048.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTestMoving.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTestMoving.Designer.cs">
+      <DependentUpon>FormTestMoving.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTestMoving2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTestMoving2.Designer.cs">
+      <DependentUpon>FormTestMoving2.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,6 +80,12 @@
     <Compile Include="Util.cs" />
     <EmbeddedResource Include="Form2048.resx">
       <DependentUpon>Form2048.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTestMoving.resx">
+      <DependentUpon>FormTestMoving.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTestMoving2.resx">
+      <DependentUpon>FormTestMoving2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -97,6 +117,7 @@
     <Content Include="AppInfo\TextFile1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="dll\Transitions.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

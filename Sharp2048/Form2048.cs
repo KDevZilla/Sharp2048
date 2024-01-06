@@ -302,6 +302,7 @@ namespace Sharp2048
                 default:
                     return;
             }
+
             bool IsThisDirectionValid=  board.Move(direction);
             if(!IsThisDirectionValid)
             {

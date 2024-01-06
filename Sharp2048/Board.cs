@@ -41,6 +41,21 @@ namespace Sharp2048
                 Matrix[i, col] = arrValue[i];
             }
         }
+        private Position swapFromPosition = null;
+        public Board SwapTileValueFrom(int row, int column)
+        {
+            swapFromPosition = new Position(row, column);
+            return this;
+        }
+        public void To(int row, int column)
+        {
+            var toPosition = new Position(row, column);
+            var temp = Matrix[toPosition.Row, toPosition.Column];
+            Matrix[toPosition.Row, toPosition.Column] = Matrix[swapFromPosition.Row, swapFromPosition.Column];
+            Matrix[swapFromPosition.Row, swapFromPosition.Column] = temp;
+            swapFromPosition = null;
+        }
+
         public bool CanMove()
         {
             int i;
@@ -202,6 +217,7 @@ namespace Sharp2048
             int jChange = firstCol < lastCol
                 ? 1
                 : -1;
+
             for (i = firstRow; 
                 iChange == 1 
                     ? i<=lastRow
@@ -301,25 +317,11 @@ namespace Sharp2048
            return  internalMove(direction);
            // internalMove(direction);
         }
-        private bool IsValidPosition(int row , int column)
-        {
-            return (row >= 0
+        private bool IsValidPosition(int row, int column) => row >= 0
                 && row < RowSize
                 && column >= 0
-                && column < ColSize);
-           
-            /*
-            if (row < 0 
-                || row >= RowSize 
-                || column < 0
-                || column >= ColSize)
-            {
-                return false;
-            }
+                && column < ColSize;
 
-            return true;
-            */
-        }
         private static readonly Random getrandom = new Random();
 
         public static int GetRandomNumber(int min, int max)
@@ -329,10 +331,8 @@ namespace Sharp2048
                 return getrandom.Next(min, max);
             }
         }
-        public void RandomPopupInitial()
-        {
-             RandomPopupNewValue(2,2);
-        }
+        public void RandomPopupInitial() => RandomPopupNewValue(2, 2);
+
         public void RandomPopUpNext()
         {
 
