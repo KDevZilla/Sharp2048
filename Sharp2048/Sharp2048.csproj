@@ -77,6 +77,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Score.cs" />
+    <Compile Include="TransitionExtend.cs" />
+    <Compile Include="TransitionHelper.cs" />
     <Compile Include="Util.cs" />
     <EmbeddedResource Include="Form2048.resx">
       <DependentUpon>Form2048.cs</DependentUpon>

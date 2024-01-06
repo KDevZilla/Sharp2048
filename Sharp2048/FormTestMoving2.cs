@@ -65,6 +65,7 @@ namespace Sharp2048
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             boardUI.MoveTile(new Position(0, 0), new Position(0, 3));
             boardUI.MoveTile(new Position(2, 0), new Position(2, 3));
             board.SwapTileValueFrom(row: 0, column: 0).To(row: 0, column: 3);
@@ -74,11 +75,17 @@ namespace Sharp2048
 
         private void button2_Click(object sender, EventArgs e)
         {
+            
             boardUI.MoveFrom(row: 2, column: 3).To(row: 0, column: 3,isChange :true);
             board.SwapTileValueFrom(row: 2, column: 3).To(row: 0, column: 3);
            // boardUI.Render(board);
 
             //boardUI.MoveTile(new Position(2, 3), new Position(0, 3));
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

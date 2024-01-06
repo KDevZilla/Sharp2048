@@ -73,6 +73,12 @@ namespace Sharp2048
             this.IsUseAnimation = false;
         }
         private Position fromPostion = null;
+        public void CreateNewTitle(int row, int column)
+        {
+            var lbl = arrRoundLabel[row, column];
+            var transition = new Transitions.Transition(new Transitions.TransitionType_EaseInEaseOut(120));
+            
+        }
         public BoardUI MoveFrom(int row, int column)
         {
             fromPostion = new Position(row, column);
@@ -95,9 +101,23 @@ namespace Sharp2048
 
             fromPostion = null;
         }
+        TransitionHelper.TaskObservor taskObserver = null;
         public void ChangeValue(Position toPosition)
         {
             var lblOriginal = arrRoundLabel[toPosition.Row, toPosition.Column];
+
+            taskObserver = new TransitionHelper.TaskObservor();
+            taskObserver.TaskStatusUpdate += (o, e2) =>
+            {
+                if (taskObserver.IsAllTaskFinsish)
+                {
+                    this.UnBlockUserInput();
+                }
+            };
+
+            TransitionHelper.PopToNewValue(lblOriginal, "4", dicTileColor[4], dicForeColor[4], taskObserver);
+
+            /*
             var transition = new Transitions.Transition(new Transitions.TransitionType_EaseInEaseOut(120));
             //  var lblOriginal = arrRoundLabel[from.Row, from.Column];
             int originalHeight = lblOriginal.Height;
@@ -134,14 +154,15 @@ namespace Sharp2048
 
                 //lblOriginal.Text = "4";
                 // arrRoundLabel[toPosition.Row, toPosition.Column].Text = "4";
-                /*
-                var tempLabel = arrRoundLabel[to.Row, to.Column];
-                arrRoundLabel[to.Row, to.Column] = arrRoundLabel[from.Row, from.Column];
-                arrRoundLabel[from.Row, from.Column] = tempLabel;
-                */
+                
+               // var tempLabel = arrRoundLabel[to.Row, to.Column];
+               // arrRoundLabel[to.Row, to.Column] = arrRoundLabel[from.Row, from.Column];
+               // arrRoundLabel[from.Row, from.Column] = tempLabel;
+                
                 UnBlockUserInput();
             };
             transition.run();
+            */
         }
         public void MoveTile(Position from, Position to)
         {
