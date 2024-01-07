@@ -11,43 +11,76 @@ namespace Sharp2048
         public class TaskObservor
         {
             private HashSet<int> HashNotFinishObject = new HashSet<int>();
-            public event EventHandler TaskStatusUpdate; 
+            public event EventHandler TaskStatusUpdate;
             public void RegisterTransition(TransitionExtend transition)
             {
-                HashNotFinishObject.Add(transition.GetHashCode());
-                transition.TransitionCompletedEvent += (o, e2) =>
+                var currentTransition = transition;
+                while (currentTransition != null)
                 {
-                    HashNotFinishObject.Remove(transition.GetHashCode());
-                    TaskStatusUpdate?.Invoke(this, new EventArgs());
-                };
+                    HashNotFinishObject.Add(currentTransition.GetHashCode());
+                    currentTransition.TransitionCompletedEvent += (o, e2) =>
+                    {
+                        TransitionExtend fireEventTransition = (TransitionExtend)o;
+                        HashNotFinishObject.Remove(fireEventTransition.GetHashCode());
+                        TaskStatusUpdate?.Invoke(this, new EventArgs());
+                    };
+
+                    currentTransition = currentTransition.NextChain;
+                }
             }
             public bool IsAllTaskFinsish => HashNotFinishObject.Count == 0;
         }
-        public static void PopToNewValue(RoundLabel label,String newText
-            ,Color newBackColor, Color newFoneColor, TaskObservor observer)
+        public static void PopToNewValue(RoundLabel label, String newText
+            , Color newBackColor, Color newFoneColor, TaskObservor observer)
         {
 
-                var transitionBigSize = TransitionExtend.Create(TransitionExtend.TransitionTypeEnum.EaseInEaseOut, 75);
+            var transitionBigSize = TransitionExtend.Create(TransitionExtend.TransitionTypeEnum.EaseInEaseOut, 75);
+
+            //  var lblOriginal = arrRoundLabel[from.Row, from.Column];
+            int originalHeight = label.Height;
+            int originalWidth = label.Width;
+            int originalLeft = label.Left;
+            int originalTop = label.Top;
+
+            int newHeight = 140;
+            int newWidth = 140;
+            int newLeft = originalLeft - ((newWidth - originalWidth) / 2);
+            int newTop = originalTop - ((newHeight - originalHeight) / 2);
+
+
+            transitionBigSize.add(label, "Width", newHeight);
+            transitionBigSize.add(label, "Height", newWidth);
+            transitionBigSize.add(label, "Top", newTop);
+            transitionBigSize.add(label, "Left", newLeft);
+
+            var transitionSetText = TransitionExtend.Create(1);
+            observer.RegisterTransition(transitionSetText);
+
+            transitionSetText.add(label, "Text", newText);
+
+
+            var transitionBacktoOrignalSize = TransitionExtend.Create(TransitionExtend.TransitionTypeEnum.EaseInEaseOut, 90);
+            observer.RegisterTransition(transitionBacktoOrignalSize);
+
+            transitionBacktoOrignalSize.add(label, "_BackColor", newBackColor);
+            transitionBacktoOrignalSize.add(label, "ForeColor", newFoneColor);
+            transitionBacktoOrignalSize.add(label, "Width", originalWidth);
+            transitionBacktoOrignalSize.add(label, "Height", originalHeight);
+            transitionBacktoOrignalSize.add(label, "Top", originalTop);
+            transitionBacktoOrignalSize.add(label, "Left", originalLeft);
+
+            transitionBigSize.NextChain = transitionSetText;
+            transitionSetText.NextChain = transitionBacktoOrignalSize;
+
+            
             observer.RegisterTransition(transitionBigSize);
-                //  var lblOriginal = arrRoundLabel[from.Row, from.Column];
-                int originalHeight = label.Height;
-                int originalWidth = label.Width;
-                int originalLeft = label.Left;
-                int originalTop = label.Top;
+            observer.RegisterTransition(transitionSetText);
+            observer.RegisterTransition(transitionBacktoOrignalSize);
 
-                int newHeight = 140;
-                int newWidth = 140;
-                int newLeft = originalLeft - (newWidth - originalWidth);
-                int newTop = originalTop - (newHeight - originalHeight);
+            transitionBigSize.run();
 
-
-                transitionBigSize.add(label, "Width", newHeight);
-                transitionBigSize.add(label, "Height", newWidth);
-                transitionBigSize.add(label, "Top", newTop);
-                transitionBigSize.add(label, "Left", newLeft);
-               
-
-                transitionBigSize.TransitionCompletedEvent += (o, e2) =>
+            /*
+            transitionBigSize.TransitionCompletedEvent += (o, e2) =>
                 {
                     //Actually we don't get the benefit from using transitionSetText
                     //but we have to use this method instead of set text directry to
@@ -73,8 +106,10 @@ namespace Sharp2048
                     transitionBacktoOrignalSize.add(label, "Left", originalLeft);
                     transitionBacktoOrignalSize.run();                 
                 };
-                transitionBigSize.run();
-            
+                */
+
+            //transitionBigSize.run();
+
         }
     }
 }

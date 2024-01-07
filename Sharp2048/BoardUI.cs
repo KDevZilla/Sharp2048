@@ -168,7 +168,7 @@ namespace Sharp2048
         {
             int leftDestination = arrRoundLabel[to.Row, to.Column].Left;
             int topDestination = arrRoundLabel[to.Row, to.Column].Top;
-            var transition = new Transitions.Transition(new Transitions.TransitionType_EaseInEaseOut(120));
+            var transition = new Transitions.Transition(new Transitions.TransitionType_Acceleration(120));
             var lblOriginal = arrRoundLabel[from.Row, from.Column];
 
             transition.add(lblOriginal, "Left", leftDestination);
@@ -219,6 +219,11 @@ namespace Sharp2048
           
 
         }
+        const int tileWidth = 120;
+        const int tileHigh = 120;
+        const int spaceBetweentile = 15;
+        readonly Font tileFont = new System.Drawing.Font("Segoe UI", 40F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
         public void InitialUI()
         {
             dicForeColor = new Dictionary<int, Color>()
@@ -288,10 +293,7 @@ namespace Sharp2048
 
             };
 
-            Font tileFont = new System.Drawing.Font("Segoe UI", 40F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            int tileWidth = 120;
-            int tileHigh = 120;
-            int spaceBetweentile = 15;
+            
             Color mainBackColor = Color.FromArgb(187, 173, 160);
             this.Width = tileWidth * 4 + (spaceBetweentile * 5);
             this.Height = tileHigh * 4 + (spaceBetweentile * 5);

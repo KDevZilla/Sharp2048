@@ -9,6 +9,9 @@ namespace Sharp2048
 {
     public class TransitionExtend:Transitions.Transition
     {
+        // public List<TransitionExtend> listChild = new List<TransitionExtend>();
+        public TransitionExtend NextChain = null;
+        public bool IsRunNextChainAfterFinish { get; set; } = true;
         public enum TransitionTypeEnum
         {
             Acceleration,
@@ -52,6 +55,17 @@ namespace Sharp2048
        
         public TransitionExtend(ITransitionType transitionMethod) : base(transitionMethod)
         {
+            if(this.IsRunNextChainAfterFinish)
+            {
+                this.TransitionCompletedEvent += (o, e2) =>
+                {
+                    if(this.NextChain == null)
+                    {
+                        return;
+                    }
+                    this.NextChain.run();
+                };
+            }
            // this.TransitionCompletedEvent += TransitionExtend_TransitionCompletedEvent1;
         }
     }
