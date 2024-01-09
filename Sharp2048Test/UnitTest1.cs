@@ -118,7 +118,23 @@ namespace Sharp2048Test
 
         }
 
+        [TestMethod]
+        public void Test123()
+        {
+            Sharp2048.Board board = new Board();
+            board.SetRowTileValue(0,new int[]{ 2,0,0,0});
+            board.SetRowTileValue(1, new int[] { 2, 0, 0, 2 });
 
+            var t = board.getListOfMovePosition(Board.Direction.Right);
+            Assert.AreEqual(2, t.Count);
+            MovePosition movePosition = t[0];
+            Assert.AreEqual(0, movePosition.FromPosition.Row);
+            Assert.AreEqual(0, movePosition.FromPosition.Column );
+            Assert.AreEqual(0, movePosition.ToPosition.Row );
+            Assert.AreEqual(3, movePosition.ToPosition.Column );
+            Assert.AreEqual(MovePosition.NoNewValue, movePosition.NewValue);
+
+        }
         [TestMethod]
         public void MoveToDifferentTile()
         {

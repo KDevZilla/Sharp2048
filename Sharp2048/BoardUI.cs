@@ -16,6 +16,16 @@ namespace Sharp2048
             Row = row;
             Column = column;
         }
+        public static Position Empty{
+            get
+            {
+                return new Position(-1, -1);
+            }
+        }
+        public Position Clone()
+        {
+            return new Position(this.Row, this.Column);
+        }
     }
     public class BoardUI : PictureBox
     {
