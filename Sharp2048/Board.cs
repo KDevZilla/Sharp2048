@@ -159,77 +159,98 @@ namespace Sharp2048
             }
             Score += addScore;
         }
-        public List<MovePosition> getListOfMovePosition(Direction direction)
+        
+        public List<Position> getListOfCanMovePosition(Direction direction)
         {
-            int rowMoveIndex;
-            int columnMoveIndex;
-            int deltaRow = 0;
-            int deltaCol = 0;
+
             int firstRow = 0;
             int firstCol = 0;
             int lastRowIndex = 0;
             int lastCol = 0;
-            bool IsDirectionValid = false;
-            bool[,] IsTileANewMix = new bool[this.RowSize, this.ColSize];
+
+
             List<MovePosition> listResult = new List<MovePosition>();
-            for (rowMoveIndex = 0; rowMoveIndex < this.RowSize; rowMoveIndex++)
-            {
-                for (columnMoveIndex = 0; columnMoveIndex < this.ColSize; columnMoveIndex++)
-                {
-                    IsTileANewMix[rowMoveIndex, columnMoveIndex] = false;
-                }
-            }
-            switch (direction)
-            {
-                case Direction.Up:
-                    deltaRow = -1;
-                    firstRow = 0;
-                    firstCol = 0;
-                    lastRowIndex = RowSize - 1;
-                    lastCol = ColSize - 1;
-                    break;
-                case Direction.Down:
-                    deltaRow = 1;
-                    firstRow = RowSize - 1;
-                    firstCol = ColSize - 1;
-                    lastRowIndex = 0;
-                    lastCol = 0;
 
-                    break;
-                case Direction.Right:
-                    deltaCol = 1;
-                    firstRow = 0;
-                    lastRowIndex = RowSize - 1;
 
-                    firstCol = ColSize - 1;
-                    lastCol = 0;
-                    break;
-                case Direction.Left:
-                    deltaCol = -1;
-                    firstRow = 0;
-                    lastRowIndex = RowSize - 1;
-                    firstCol = 0;
-                    lastCol = ColSize - 1;
-                    break;
-            }
             List<Position> listTileCanMoveColumn = new List<Position>();
             List<Position> listTileCanMoveRow = new List<Position>();
-
-            for (rowMoveIndex = 0;rowMoveIndex <=3;rowMoveIndex++)
+            if(direction == Direction.Right 
+                ||direction == Direction.Left)
             {
-                Boolean hasAtLeastOneBlankTile = false;
-                Boolean hasAtLeastOneNonBlankTile = false;
-                hasAtLeastOneBlankTile = Matrix.IsRowContainValue(rowMoveIndex, 0);
-                hasAtLeastOneNonBlankTile = !Matrix.IsRowContainValue(rowMoveIndex, 0);
-
-                Boolean CanMoveTileInThisColumn = (hasAtLeastOneBlankTile && hasAtLeastOneNonBlankTile);
-                if (CanMoveTileInThisColumn)
+                for (int rowMoveIndex = 0; rowMoveIndex < this.RowSize ; rowMoveIndex++)
                 {
-                  //  listTileCanMoveRow = Matrix.GetRowIndicesInColumnContainValue 
-                  //  listTileCanMoveColumn.Add(new Position(rowMoveIndex, columnMoveIndex));
+                    Boolean hasAtLeastOneBlankTile = false;
+                    Boolean hasAtLeastOneNonBlankTile = false;
+                    hasAtLeastOneBlankTile = Matrix.IsRowContainValue(rowMoveIndex, 0);
+                    hasAtLeastOneNonBlankTile = Matrix.IsRowContainOtherValueThanThis(rowMoveIndex, 0);
+
+                    Boolean CanMoveTileInThisRow = (hasAtLeastOneBlankTile && hasAtLeastOneNonBlankTile);
+                    if (CanMoveTileInThisRow)
+                    {
+                        if (direction == Direction.Left)
+                        {
+                            int iFirstColumnContainValue0 = Matrix.FirstColumnContainValue(rowMoveIndex, 0);
+                            for (int columnMoveIndex = iFirstColumnContainValue0 + 1; columnMoveIndex <= Matrix.GetUpperBound(1); columnMoveIndex++)
+                            {
+                                if (Matrix[rowMoveIndex, columnMoveIndex] > 0)
+                                {
+                                    listTileCanMoveRow.Add(new Position(rowMoveIndex, columnMoveIndex));
+                                }
+                            }
+                        }
+                        if (direction == Direction.Right)
+                        {
+                            int iLastColumnContainValue0 = Matrix.LastColumnContainValue(rowMoveIndex, 0);
+                            for (int columnMoveIndex = iLastColumnContainValue0 - 1; columnMoveIndex >= 0; columnMoveIndex--)
+                            {
+                                if (Matrix[rowMoveIndex, columnMoveIndex] > 0)
+                                {
+                                    listTileCanMoveRow.Add(new Position(rowMoveIndex, columnMoveIndex));
+                                }
+                            }
+                        }
+                      }
                 }
             }
+            if(direction == Direction.Up || direction== Direction.Down)
+            {
+                for (int columnMoveIndex = 0; columnMoveIndex < this.ColSize; columnMoveIndex++)
+                {
+                    Boolean hasAtLeastOneBlankTile = false;
+                    Boolean hasAtLeastOneNonBlankTile = false;
+                    hasAtLeastOneBlankTile = Matrix.IsColumnContainValue(columnMoveIndex, 0);
+                    hasAtLeastOneNonBlankTile = Matrix.IsColumnContainOtherValueThanThis(columnMoveIndex, 0);
 
+                    Boolean CanMoveTileInThisColumn = (hasAtLeastOneBlankTile && hasAtLeastOneNonBlankTile);
+                    if (CanMoveTileInThisColumn)
+                    {
+                        if (direction == Direction.Up )
+                        {
+                            int iFirstRowContainValue0 = Matrix.FirstRowContainValue(columnMoveIndex, 0);
+                            for (int rowMoveIndex = iFirstRowContainValue0 + 1; rowMoveIndex <= Matrix.GetUpperBound(0); rowMoveIndex++)
+                            {
+                                if (Matrix[rowMoveIndex, columnMoveIndex] > 0)
+                                {
+                                    listTileCanMoveColumn.Add(new Position(rowMoveIndex, columnMoveIndex));
+                                }
+                            }
+                        }
+                        if (direction == Direction.Down)
+                        {
+                            int iLastRowContainValue0 = Matrix.LastRowContainValue(columnMoveIndex, 0);
+                            for (int rowMoveIndex = iLastRowContainValue0 - 1; rowMoveIndex >= 0; rowMoveIndex--)
+                            {
+                                if (Matrix[rowMoveIndex, columnMoveIndex] > 0)
+                                {
+                                    listTileCanMoveColumn.Add(new Position(rowMoveIndex, columnMoveIndex));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return listTileCanMoveColumn.Concat(listTileCanMoveRow).ToList();
+            /*
             for (columnMoveIndex = 0; columnMoveIndex <= 3; columnMoveIndex++)
             {
                 Boolean hasAtLeastOneBlankTile = false;
@@ -359,6 +380,7 @@ namespace Sharp2048
                 }
             }
             return listResult;
+            */
         }
         private bool internalMove(Direction direction)
         {

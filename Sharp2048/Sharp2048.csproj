@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Board.cs" />
     <Compile Include="BoardUI.cs" />
+    <Compile Include="Bot.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="Form2048.cs">
       <SubType>Form</SubType>

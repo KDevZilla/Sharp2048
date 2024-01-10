@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sharp2048;
 
@@ -117,22 +118,129 @@ namespace Sharp2048Test
             Assert.AreEqual(board.Matrix[3, 3], 8);
 
         }
+        [TestMethod]
+        public void FirstRowContainValue()
+        {
+            int[,] Matrix = new int[,]
+            {
+                { 2,0,0,0 },
+                {2,0,0,2 },
+                {0,0,0,0 },
+                {0,0,0,0 }
+            };
+            int indexFirstRowContainValue = Matrix.FirstRowContainValue(0, 2);
+            Assert.AreEqual(0, indexFirstRowContainValue);
+
+            indexFirstRowContainValue = Matrix.FirstRowContainValue(1, 2);
+            Assert.AreEqual(-1, indexFirstRowContainValue);
+
+            indexFirstRowContainValue = Matrix.FirstRowContainValue(2, 2);
+            Assert.AreEqual(-1, indexFirstRowContainValue);
+
+            indexFirstRowContainValue = Matrix.FirstRowContainValue(3, 2);
+            Assert.AreEqual(1, indexFirstRowContainValue);
+
+            indexFirstRowContainValue = Matrix.FirstRowContainValue(0, 0);
+            Assert.AreEqual(2, indexFirstRowContainValue);
+
+            indexFirstRowContainValue = Matrix.FirstRowContainValue(1, 0);
+            Assert.AreEqual(0, indexFirstRowContainValue);
+
+        }
 
         [TestMethod]
-        public void Test123()
+        public void LastRowContainValue()
+        {
+            int[,] Matrix = new int[,]
+            {
+                { 2,0,0,0 },
+                {2,0,0,2 },
+                {0,0,0,0 },
+                {0,0,0,0 }
+            };
+            int indexLastRowContainValue = Matrix.LastRowContainValue(0, 2);
+            Assert.AreEqual(1, indexLastRowContainValue);
+
+            indexLastRowContainValue = Matrix.LastRowContainValue(1, 2);
+            Assert.AreEqual(-1, indexLastRowContainValue);
+
+            indexLastRowContainValue = Matrix.LastRowContainValue(2, 2);
+            Assert.AreEqual(-1, indexLastRowContainValue);
+
+            indexLastRowContainValue = Matrix.LastRowContainValue(3, 2);
+            Assert.AreEqual(1, indexLastRowContainValue);
+
+            Matrix = new int[,]
+            {
+                {0,0,0,2 },
+                {0,0,0,0 },
+                {0,0,0,0 },
+                {2,0,0,0 }
+            };
+
+            indexLastRowContainValue = Matrix.LastRowContainValue(0, 2);
+            Assert.AreEqual(3, indexLastRowContainValue);
+
+
+            indexLastRowContainValue = Matrix.LastRowContainValue(3, 2);
+            Assert.AreEqual(0, indexLastRowContainValue);
+
+
+            indexLastRowContainValue = Matrix.LastRowContainValue(1, 0);
+            Assert.AreEqual(3, indexLastRowContainValue);
+
+
+        }
+
+
+        [TestMethod]
+        public void FirstColumnContainValue()
+        {
+            int[,] Matrix = new int[,]
+            {
+                { 2,0,0,0 },
+                {2,0,0,2 },
+                {0,0,0,0 },
+                {0,0,0,0 }
+            };
+
+        }
+
+        [TestMethod]
+        public void LastColumnContainValue()
+        {
+            int[,] Matrix = new int[,]
+            {
+                { 2,0,0,0 },
+                {2,0,0,2 },
+                {0,0,0,0 },
+                {0,0,0,0 }
+            };
+
+        }
+        [TestMethod]
+        public void getListOfCanMovePosition()
         {
             Sharp2048.Board board = new Board();
             board.SetRowTileValue(0,new int[]{ 2,0,0,0});
             board.SetRowTileValue(1, new int[] { 2, 0, 0, 2 });
 
-            var t = board.getListOfMovePosition(Board.Direction.Right);
-            Assert.AreEqual(2, t.Count);
-            MovePosition movePosition = t[0];
-            Assert.AreEqual(0, movePosition.FromPosition.Row);
-            Assert.AreEqual(0, movePosition.FromPosition.Column );
-            Assert.AreEqual(0, movePosition.ToPosition.Row );
-            Assert.AreEqual(3, movePosition.ToPosition.Column );
-            Assert.AreEqual(MovePosition.NoNewValue, movePosition.NewValue);
+            List<Position> listPosition = board.getListOfCanMovePosition(Board.Direction.Right);
+            Assert.AreEqual(2, listPosition.Count );
+
+           
+            listPosition = board.getListOfCanMovePosition(Board.Direction.Left);
+            Assert.AreEqual(1, listPosition.Count);
+
+
+            listPosition = board.getListOfCanMovePosition(Board.Direction.Up);
+            Assert.AreEqual(2, listPosition.Count);
+
+
+            listPosition = board.getListOfCanMovePosition(Board.Direction.Down );
+            Assert.AreEqual(2, listPosition.Count);
+
+          
 
         }
         [TestMethod]
