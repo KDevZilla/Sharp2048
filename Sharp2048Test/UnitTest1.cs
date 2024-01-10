@@ -147,7 +147,11 @@ namespace Sharp2048Test
             Assert.AreEqual(0, indexFirstRowContainValue);
 
         }
+        [TestMethod]
+        public void IsRowContainValue()
+        {
 
+        }
         [TestMethod]
         public void LastRowContainValue()
         {
